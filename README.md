@@ -3,6 +3,11 @@ serverless
 
 Simple serverless web app demo made using AWS Lambda and AWS Elastic Load Balancer.
 
+Terraform is used as a rudimentary build tool to pack site artifacts.
+These artifacts are then deployed as AWS Lambdas.
+Each Lambda is mapped to its own LB target group.
+Target groups are selected via LB listener rules based on host condition.  
+
 # Requirements
 
 * AWS account with configured: VPC, public subnet(s), private subnet(s), and internet gateway
@@ -30,13 +35,13 @@ region = "us-west-1"
 # VPC ID
 vpc_id = "vpc-1"
 
-# VPC private subnet ID list
+# VPC private subnet ID list (for Lambda)
 vpc_private_subnet_ids = [
   "subnet-1",
   "subnet-2",
 ]
 
-# VPC public subnet ID list
+# VPC public subnet ID list (for LB)
 vpc_public_subnet_ids = [
   "subnet-3",
   "subnet-4",
@@ -45,7 +50,9 @@ vpc_public_subnet_ids = [
 # CIDR block list to allow access to LB
 lb_ingress_cidr_blocks = ["0.0.0.0/0"]
 ```
-Replace all IDs with those from your VPC.
+
+* replace all IDs with those from your VPC
+* restrict network access with `lb_ingress_cidr_blocks`
 
 # Deploy
 
