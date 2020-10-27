@@ -48,23 +48,19 @@ resource "aws_lambda_permission" "lambda_invoke_by_lb" {
 ### role
 
 resource "aws_iam_role" "lambda" {
-  name = "${var.name}-lambda"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": ""
-    }
-  ]
+  name               = "${var.name}-lambda"
+  assume_role_policy = data.aws_iam_policy_document.lambda_assume_role_policy.json
 }
-EOF
+
+data "aws_iam_policy_document" "lambda_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_vpc_access_execution" {
