@@ -23,6 +23,10 @@ resource "aws_lambda_function" "lambda" {
 
   role = aws_iam_role.lambda.arn
 
+  environment {
+    variables = each.value.environment
+  }
+
   vpc_config {
     subnet_ids         = var.vpc_private_subnet_ids
     security_group_ids = [aws_security_group.lambda.id]

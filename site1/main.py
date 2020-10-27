@@ -1,3 +1,8 @@
+import os
+
+RESPONSE = os.environ['RESPONSE']
+
+
 def lambda_handler(event, context):
     return {
         'statusCode':        200,
@@ -6,5 +11,5 @@ def lambda_handler(event, context):
         'headers':           {
             'Content-Type': 'text/plain'
         },
-        'body':              'test1'
+        'body':              RESPONSE
     }

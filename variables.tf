@@ -37,27 +37,36 @@ variable "sites" {
     output_path = string,
     runtime     = string
     handler     = string
+    environment = map(string)
   }))
 
   default = {
     site1 = {
-      hosts       = ["test1.foo.io"]
+      hosts = ["test1.foo.io"]
 
       source_dir  = "site1"
       output_path = "files/site1.zip"
 
-      runtime     = "python3.8"
-      handler     = "main.lambda_handler"
+      runtime = "python3.8"
+      handler = "main.lambda_handler"
+
+      environment = {
+        RESPONSE = "test1"
+      }
     }
 
     site2 = {
-      hosts       = ["test2.foo.io"]
+      hosts = ["test2.foo.io"]
 
       source_dir  = "site2"
       output_path = "files/site2.zip"
 
-      runtime     = "python3.8"
-      handler     = "main.lambda_handler"
+      runtime = "nodejs12.x"
+      handler = "index.handler"
+
+      environment = {
+        RESPONSE = "test2"
+      }
     }
   }
 }
